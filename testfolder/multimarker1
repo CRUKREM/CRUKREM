@@ -1,0 +1,83 @@
+
+	"trackingBackend": "aruco",
+	"subMarkersControls": [
+		{
+			"parameters": {
+				"type": "barcode",
+				"barcodeValue": "00"
+			},
+			"poseMatrix": [
+				1,
+				0,
+				0,
+				157.5,
+				0,
+				1,
+				0,
+				-102.5,
+				0,
+				0,
+				1,
+				0
+			]
+		},
+		{
+			"parameters": {
+				"type": "barcode",
+				"barcodeValue": "02"
+			},
+			"poseMatrix": [
+				1.0000,
+				0,
+				0,
+				157.5,
+				0,
+				1,
+				0,
+				-50,
+				0,
+				0,
+				1,
+				0
+			]
+		},
+		{
+			"parameters": {
+				"type": "barcode",
+				"barcodeValue": "03"
+			},
+			"poseMatrix": [
+				1,
+				0,
+				0,
+				105,
+				0,
+				1,
+				0,
+				-50,
+				0,
+				0,
+				1,
+				0
+			]
+		},
+		{
+			"parameters": {
+				"type": "barcode",
+				"barcodeValue": "13"
+			},
+			"poseMatrix": [
+				1,
+				0,
+				0,
+				157.5,
+				0,
+				1,
+				0,
+				-155,
+				0,
+				0,
+				1,
+				0
+			]
+		}

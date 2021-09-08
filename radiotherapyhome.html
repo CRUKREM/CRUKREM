@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+	<script>
+		//Loads multimarker file to localstorage otherwise the area preset will only look for hiro alone
+		var a = window.location.toString();
+		var file = a.substring(a.indexOf("?") + 1);
+		var xobj = new XMLHttpRequest();
+		xobj.overrideMimeType("application/json");
+		if (file == a) {
+			xobj.open('GET', 'https://crukrem.github.io/testfolder/multimarker', true); // 
+		} else {
+			xobj.open('GET', file, true); // 
+		}
+		xobj.onreadystatechange = function() {
+			if (xobj.readyState == 4 && xobj.status == "200") {
+				localStorage.setItem('https://crukrem.github.io/testfolder/multimarker', xobj.responseText);
+			}
+		};
+		xobj.send();
+	</script>
+	<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+	<link href="submitStylesheet.css" rel="stylesheet">
+</head>
+
+<body style='margin : 0px; overflow: hidden' ; cursor="fuse: false; rayOrigin: mouse">
+	<a-scene embedded arjs='trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3' vr-mode-ui="enabled: false">
+		<a-marker id="mask" ; type='barcode' value='1' smooth='true'>
+			<a-entity gltf-model='https://crukrem.github.io/radiotherapy/radiomask.glb' scale='0.05 0.05 0.05' position='0 0 0' object-model id="mask">
+			</a-entity>
+			<a-image src='https://crukrem.github.io/radiotherapy/radiotherapyDigits.jpg' scale='1.1 1.1 1.1' rotation='-90 90 0'>
+			</a-image>
+		</a-marker>
+		<a-entity camera></a-entity>
+		<a-light type="ambient" color="#bbb" intensity="0.8"></a-light>
+		<a-light type="directional" intensity="0.6" color="#ffffff" position="0.25 0.5 1"></a-light>
+	</a-scene>
+
+	<div style="display: block;" class="form-container-instructions" id="instructions1">
+		<div id="1">
+			<p>Thanks for trying out the Cancer Research UK augmented reality activity! Every day our researchers work hard to solve difficult problems and save lives. <b>This is your chance to step into the shoes of a researcher and try to figure out a problem of your own.</b></p>
+		</div>
+
+		<div id="2">
+			<p><b>Cancer Research UK was a key player in the development of radiotherapy. </b>See if you can solve this puzzle and figure out how many patients in the UK benefit every year from radiotherapy. To find the answer, you'll need to follow the instructions on the following pages.</p>
+		</div>
+		<div id="3">
+			<p>Aim your device at the black square with the white shape in the middle. You can do this now, even with the instructions open. You should see a mesh-like mask. Don't worry if it's hidden by these instructions, you will see it more clearly in a minute. This is a 3D model of an actual mask worn during radiotherapy in order to keep the patient's head and neck still while they are being treated.</p>
+		</div>
+		<div id="4">
+			<p>If you look closely through the mouth of the mask, you should be able to see some numbers behind it. Move your phone around to see different angles, and look for all the different numbers. The largest number in the set is also the answer to the following skill-testing question: <b>Cancer Research UK was a key player in radiotherapy. How many patients in the UK benefit every year from this research?</b></b> Tap the "Check your answer here!" button when you think you've found it!</p>
+		</div>
+		<div>
+			<a href="#" id="prev"><button type="button" class="btn cancel">Prev</button></a>
+			<a href="#" id="next"><button type="button" class="btn cancel">Next</button></a>
+		</div>
+	</div>
+
+	<button class="open-button" onclick="openForm()" id="submitAnswer">Check your answer here!</button>
+	<div class="form-container" id="myForm">
+		<h1 style="font-size:20px;">How many patients in the UK benefit every year from radiotherapy?</h1>
+		<h2 style="font-size:13px;">Don't forget - the correct answer is the biggest number you can find behind the mask</h2>
+
+		<input type="text" placeholder="Answer" id="userGuess" name="userGuess">
+
+		<div>
+			<button type="button" class="btn" onclick="checkAnswer()">Submit</button></div>
+		<div><button type="button" class="btn cancel" onclick="closeForm()">Back to camera</button>
+		</div>
+	</div>
+	<div style="display: none;" id="5">
+		<a href="#" onclick="reset();"><button type="button" class="open-button-instructions">Instructions</button></a>
+	</div>
+
+	<div class="form-container-instructions" id="instructions">
+
+		<button type="button" class="btn cancel" onclick="closeInstructions()">Back</button>
+
+		<h1 style="color: #2e0086">How To Play</h1>
+		<p>Try pointing your phone at some of those puzzle squares you printed and cut out. Pretty cool huh? Four of these squares can be arranged to make a 3D model of a plastic mask worn during radiotherapy. Think of it like a puzzle - see if you can put the mask pieces together the right way. The square with the numbers on it is important too. It shows you the different patterns your other squares might make once you've completed the mask. Compare the shape you've made with these shapes to figure out the answer to this question!
+		</p>
+		<p style="font-size:8px">3D image courtesy of The Science Museum</p>
+	</div>
+	<div class="form-popup">
+		<div class="form-container" id="correct">
+			<h1>Correct! Well done!</h1>
+			<p>Cancer Research UK was a key player in radiotherapy, which now benefits more than 130,000 patients every year in the UK. You can learn more about radiotherapy
+				<a href="https://www.cancerresearchuk.org/about-cancer/cancer-in-general/treatment/radiotherapy" target="_blank">here.</a>
+			</p>
+			<button type="button" class="btn cancel" onclick="closeInstructions()">Back</button>
+		</div>
+	</div>
+	<div class="form-popup">
+		<div class="form-container" id="incorrect">
+			<h1 style="font-size:20px;">Not quite, try again!</h1>
+			<p1>Try looking through the mask again to see if there are any numbers you may have missed.</p1>
+			<button type="button" class="btn cancel" onclick="closeInstructions()">Back to camera</button>
+		</div>
+	</div>
+
+</body>
+
+</html>
+<!-- partial -->
+  <script src="radiojs.js"></script>
+
+</body>
+</html>
