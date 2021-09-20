@@ -8,13 +8,13 @@
 		var xobj = new XMLHttpRequest();
 		xobj.overrideMimeType("application/json");
 		if (file == a) {
-			xobj.open('GET', 'https://crukrem.github.io/testfolder/multimarker', true); // 
+			xobj.open('GET', 'https://crukrem.github.io/CRUKREM/testfolder/multimarker', true); // 
 		} else {
 			xobj.open('GET', file, true); // 
 		}
 		xobj.onreadystatechange = function() {
 			if (xobj.readyState == 4 && xobj.status == "200") {
-				localStorage.setItem('https://crukrem.github.io/testfolder/multimarker', xobj.responseText);
+				localStorage.setItem('https://crukrem.github.io/CRUKREM/testfolder/multimarker', xobj.responseText);
 			}
 		};
 		xobj.send();
@@ -28,9 +28,9 @@
 <body style='margin : 0px; overflow: hidden' ; cursor="fuse: false; rayOrigin: mouse">
 	<a-scene embedded arjs='trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3' vr-mode-ui="enabled: false">
 		<a-marker id="mask" ; type='barcode' value='1' smooth='true'>
-			<a-entity gltf-model='https://crukrem.github.io/radiotherapy/radiomask.glb' scale='0.05 0.05 0.05' position='0 0 0' object-model id="mask">
+			<a-entity gltf-model='https://crukrem.github.io/CRUKREM/radiotherapy/radiomask.glb' scale='0.05 0.05 0.05' position='0 0 0' object-model id="mask">
 			</a-entity>
-			<a-image src='https://crukrem.github.io/radiotherapy/radiotherapyDigits.jpg' scale='1.1 1.1 1.1' rotation='-90 90 0'>
+			<a-image src='https://crukrem.github.io/CRUKREM/radiotherapy/radiotherapyDigits.jpg' scale='1.1 1.1 1.1' rotation='-90 90 0'>
 			</a-image>
 		</a-marker>
 		<a-entity camera></a-entity>
